@@ -36,7 +36,6 @@ void merge(Task* arr[], int left, int mid, int right) {
         arr[k++] = R[j++];
     }
 
-    // Dealokasi memory yang dialokasikan untuk L dan R
     free(L);
     free(R);
 }
