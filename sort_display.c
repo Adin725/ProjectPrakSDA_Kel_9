@@ -64,34 +64,64 @@ int binarySearch(Task* arr[], int left, int right, char* course) {
 
 // Menampilkan semua tugas berdasarkan status: "done" atau "undone"
 void displayTasks(HashTable* ht, const char* type) {
-    printf("\nDaftar tugas (%s):\n", type);
-    int found = 0;
+    if (ht->size == 0) {
+        printf("\nTidak ada tugas %s.\n", type);
+        return;
+    }
+
+    Task* arr = malloc(ht->size * sizeof(Task));
+    int count = 0;
     for (int i = 0; i < HASH_SIZE; i++) {
         if (ht->tasks[i] != NULL) {
-            Task* t = ht->tasks[i];
-            if (t != NULL) {
-                found = 1;
-                printf("ID: %d | Nama: %s | MK: %s | Deadline: %s | Catatan: %s\n",
-                    t->task_id, t->name, t->course, t->deadline, t->note);
-            }
+            arr[count++] = *ht->tasks[i];
         }
     }
-    if (!found) {
-        printf("Tidak ada tugas dengan status \"%s\".\n", type);
+
+    mergeSort(arr, 0, count - 1);
+
+    printf("\n+-----+--------------------+--------------------+----------------------------------+\n");
+    printf("| ID  | Mata Kuliah        | Nama Tugas         | Catatan                          |\n");
+    printf("+-----+--------------------+--------------------+----------------------------------+\n");
+    for (int i = 0; i < count; i++) {
+        printf("| %-3d | %-18s | %-18s | %-32s |\n",
+               arr[i].task_id, arr[i].course, arr[i].name, arr[i].note);
     }
+    printf("+-----+--------------------+--------------------+----------------------------------+\n");
+
+    free(arr);
 }
 
 // Menampilkan tugas-tugas yang diurutkan berdasarkan nama mata kuliah
 void displayBySubject(SiPeTuK* system) {
-    Task* temp[HASH_SIZE];
-    int idx = 0;
+    char course[50];
+    printf("Masukkan nama mata kuliah: ");
+    scanf(" %[^\n]", course);
+
+    int count = 0;
+    Task* arr = malloc(system->incomplete_tasks.size * sizeof(Task));
     for (int i = 0; i < HASH_SIZE; i++) {
-        if (system->incomplete_tasks.tasks[i] != NULL) {
-            temp[idx++] = system->incomplete_tasks.tasks[i];
+        if (system->incomplete_tasks.tasks[i] != NULL && strcmp(system->incomplete_tasks.tasks[i]->course, course) == 0) {
+            arr[count++] = *system->incomplete_tasks.tasks[i];
         }
     }
 
-    if (idx == 0) {
-        printf("Tidak ada tugas untuk ditampilkan.\n");
+    if (count == 0) {
+        printf("\nTidak ada tugas untuk mata kuliah %s.\n", course);
+        free(arr);
         return;
     }
+
+    mergeSort(arr, 0, count - 1);
+
+    printf("\nDaftar Tugas Mata Kuliah %s\n", course);
+    printf("+-----+--------------------+----------------------------------+\n");
+    printf("| ID  | Nama Tugas         | Catatan                          |\n");
+    printf("+-----+--------------------+----------------------------------+\n");
+    for (int i = 0; i < count; i++) {
+        printf("| %-3d | %-18s | %-32s |\n",
+               arr[i].task_id, arr[i].name, arr[i].note);
+    }
+    printf("+-----+--------------------+----------------------------------+\n");
+
+    free(arr);
+}
