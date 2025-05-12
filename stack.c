@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "sipe_tuk.h" 
+
 // Fungsi untuk menginisialisasi stack undo
 void initStack(StackNode** stack) {
     *stack = NULL;
