@@ -80,3 +80,18 @@ int k;
     for (int i = 0; i < system->priority_heap.size; i++) {
         heapInsert(&temp_heap, system->priority_heap.tasks[i]);
     }
+printf("\n+-------------+--------------------+--------------------+----------------------------------+\n");
+    printf("| Sisa Hari   | Mata Kuliah        | Nama Tugas        | Catatan                          |\n");
+    printf("+-------------+--------------------+--------------------+----------------------------------+\n");
+    int displayed = 0;
+    // Ambil dan tampilkan tugas dari heap sementara hingga batas yang diminta
+    while (temp_heap.size > 0 && displayed < k) {
+        Task task = extractMin(&temp_heap);
+        printf("| %-11d | %-18s | %-18s | %-32s |\n",
+               task.days_left, task.course, task.name, task.note);
+        displayed++;
+    }
+    printf("+-------------+--------------------+--------------------+----------------------------------+\n");
+
+    free(temp_heap.tasks);
+}
