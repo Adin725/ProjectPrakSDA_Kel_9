@@ -4,59 +4,46 @@
 #include "sipe_tuk.h" 
 
 // Fungsi merge untuk merge sort
-void merge(Task* arr[], int left, int mid, int right) {
+void merge(Task* arr, int left, int mid, int right) {
     int n1 = mid - left + 1;
     int n2 = right - mid;
-
-    // Alokasi dinamis untuk array L dan R
-    Task** L = (Task**)malloc(n1 * sizeof(Task*));
-    Task** R = (Task**)malloc(n2 * sizeof(Task*));
-
-    for (int i = 0; i < n1; i++) {
-        L[i] = arr[left + i];
-    }
-    for (int j = 0; j < n2; j++) {
-        R[j] = arr[mid + 1 + j];
-    }
-
+    Task* L = malloc(n1 * sizeof(Task));
+    Task* R = malloc(n2 * sizeof(Task));
+    for (int i = 0; i < n1; i++) L[i] = arr[left + i];
+    for (int i = 0; i < n2; i++) R[i] = arr[mid + 1 + i];
     int i = 0, j = 0, k = left;
-
     while (i < n1 && j < n2) {
-        if (strcmp(L[i]->course, R[j]->course) <= 0) {
-            arr[k++] = L[i++];
+        if (strcmp(L[i].course, R[j].course) <= 0) {
+            arr[k] = L[i];
+            i++;
         } else {
-            arr[k++] = R[j++];
+            arr[k] = R[j];
+            j++;
         }
+        k++;
     }
-
-    while (i < n1) {
-        arr[k++] = L[i++];
-    }
-    while (j < n2) {
-        arr[k++] = R[j++];
-    }
-
+    while (i < n1) arr[k++] = L[i++];
+    while (j < n2) arr[k++] = R[j++];
     free(L);
     free(R);
 }
 
 // Merge sort berdasarkan nama mata kuliah
-void mergeSort(Task* arr[], int left, int right) {
+void mergeSort(Task* arr, int left, int right) {
     if (left < right) {
-        int mid = (left + right) / 2;
+        int mid = left + (right - left) / 2;
         mergeSort(arr, left, mid);
         mergeSort(arr, mid + 1, right);
         merge(arr, left, mid, right);
     }
 }
-
 // Binary search berdasarkan nama mata kuliah
-int binarySearch(Task* arr[], int left, int right, char* course) {
+int binarySearch(Task* arr, int left, int right, char* course) {
     while (left <= right) {
-        int mid = (left + right) / 2;
-        int cmp = strcmp(arr[mid]->course, course);
+        int mid = left + (right - left) / 2;
+        int cmp = strcmp(arr[mid].course, course);
         if (cmp == 0) return mid;
-        else if (cmp < 0) left = mid + 1;
+        if (cmp < 0) left = mid + 1;
         else right = mid - 1;
     }
     return -1;
