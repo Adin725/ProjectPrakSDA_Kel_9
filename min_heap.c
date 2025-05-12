@@ -22,3 +22,25 @@ void heapInsert(MinHeap* heap, Task task) {
     }
     heap->tasks[i] = task;
 }
+Task extractMin(MinHeap* heap) {
+    // Ambil tugas dengan days_left terkecil dan pindahkan tugas terakhir ke root
+    Task min = heap->tasks[0];
+    heap->tasks[0] = heap->tasks[--heap->size];
+    // Atur ulang heap agar tetap memenuhi sifat min-heap
+    int i = 0;
+    while (1) {
+        int smallest = i;
+        int left = 2 * i + 1;
+        int right = 2 * i + 2;
+        if (left < heap->size && heap->tasks[left].days_left < heap->tasks[smallest].days_left)
+            smallest = left;
+        if (right < heap->size && heap->tasks[right].days_left < heap->tasks[smallest].days_left)
+            smallest = right;
+        if (smallest == i) break;
+        Task temp = heap->tasks[i];
+        heap->tasks[i] = heap->tasks[smallest];
+        heap->tasks[smallest] = temp;
+        i = smallest;
+    }
+    return min;
+}
