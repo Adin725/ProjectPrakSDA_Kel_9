@@ -12,7 +12,6 @@ int calculateDaysLeft(Date current, char* deadline) {
     int deadline_days = y1 * 365 + m1 * 30 + d1;
     return deadline_days - current_days;
 }
-
 // Inisialisasi sistem SiPeTuK
 SiPeTuK* initSiPeTuK() {
     SiPeTuK* system = malloc(sizeof(SiPeTuK));
