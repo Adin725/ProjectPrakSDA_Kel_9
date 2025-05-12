@@ -2,29 +2,31 @@
 #include <stdlib.h>
 #include "sipe_tuk.h"
 
+// Fungsi untuk menghapus tugas dari hash table dan menyimpannya ke undo stack
 void removeTaskFromHashTable(HashTable* table, int task_id, StackNode** undo_stack) {
-    int index = hashFunction(task_id);
+    int index = hashFunction(task_id);  // Cari index di hash table
     TaskNode* current = table->buckets[index];
     TaskNode* prev = NULL;
 
     while (current != NULL) {
         if (current->task.task_id == task_id) {
-            // Simpan ke stack sebelum dihapus
+            // Simpan tugas ke undo stack sebelum dihapus
             pushStack(undo_stack, current->task);
 
-            // Hapus node dari linked list
+            // Hapus tugas dari hash table (linked list)
             if (prev == NULL) {
-                table->buckets[index] = current->next;
+                table->buckets[index] = current->next;  // Node pertama
             } else {
-                prev->next = current->next;
+                prev->next = current->next;  // Menghubungkan ke node berikutnya
             }
 
-            free(current);
+            free(current);  // Bebaskan memori untuk node
             return;
         }
         prev = current;
         current = current->next;
     }
+    printf("Tugas dengan ID %d tidak ditemukan di hash table.\n", task_id);
 }
 
 
