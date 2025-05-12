@@ -1,13 +1,14 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "sipe_tuk.h"
 
+// Hitung indeks berdasarkan ID tugas untuk penyimpanan di Hash Table
 int hashFunction(int task_id) {
     return task_id % HASH_SIZE;
 }
 
+// Inisialisasi Hash Table dengan size nol dan semua slot kosong
 void initHashTable(HashTable* ht) {
     ht->size = 0;
     for (int i = 0; i < HASH_SIZE; i++) {
@@ -15,6 +16,7 @@ void initHashTable(HashTable* ht) {
     }
 }
 
+// Tambah tugas baru ke Hash Table dengan penanganan collision
 void addTaskToHashTable(HashTable* ht, Task task) {
     int index = hashFunction(task.task_id);
     while (ht->tasks[index] != NULL) {
@@ -25,6 +27,7 @@ void addTaskToHashTable(HashTable* ht, Task task) {
     ht->size++;
 }
 
+// Cari tugas di Hash Table berdasarkan ID
 Task* findTaskInHashTable(HashTable* ht, int task_id) {
     int index = hashFunction(task_id);
     int original = index;
@@ -37,6 +40,7 @@ Task* findTaskInHashTable(HashTable* ht, int task_id) {
     return NULL;
 }
 
+// Hapus tugas dari Hash Table dan simpan ke Stack untuk undo
 void removeTaskFromHashTable(HashTable* ht, int task_id, StackNode** stack) {
     int index = hashFunction(task_id);
     int original = index;
@@ -55,6 +59,7 @@ void removeTaskFromHashTable(HashTable* ht, int task_id, StackNode** stack) {
     } while (index != original && ht->tasks[index] != NULL);
 }
 
+// Tambah tugas baru 
 void addTask(SiPeTuK* system) {
     Task task;
     task.task_id = system->id_counter++;
@@ -72,6 +77,7 @@ void addTask(SiPeTuK* system) {
     printf("Tugas berhasil ditambahkan!\n");
 }
 
+// Hapus tugas dari sistem berdasarkan ID yang dimasukkan
 void deleteTask(SiPeTuK* system) {
     int task_id;
     printf("Masukkan ID tugas yang akan dihapus: ");
@@ -93,6 +99,7 @@ void deleteTask(SiPeTuK* system) {
     printf("Tugas berhasil dihapus!\n");
 }
 
+// Tandai tugas sebagai selesai dan pindahkan ke daftar selesai
 void markCompleted(SiPeTuK* system) {
     int task_id;
     printf("Masukkan ID tugas yang selesai: ");
