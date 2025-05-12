@@ -44,3 +44,12 @@ Task extractMin(MinHeap* heap) {
     }
     return min;
 }
+void rebuildMinHeap(MinHeap* heap, HashTable* ht) {
+    // Kosongkan heap dan bangun ulang dengan memasukkan semua tugas dari hash table
+    heap->size = 0;
+    for (int i = 0; i < HASH_SIZE; i++) {
+        if (ht->tasks[i] != NULL) {
+            heapInsert(heap, *ht->tasks[i]);
+        }
+    }
+}
