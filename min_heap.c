@@ -59,3 +59,24 @@ void displayByPriority(SiPeTuK* system) {
         printf("\nTidak ada tugas yang belum selesai.\n");
         return;
     }
+int k;
+    printf("Pilih jumlah tugas mendesak yang ingin ditampilkan:\n");
+    printf("1. Top 3\n");
+    printf("2. Top 5\n");
+    printf("3. Top 10\n");
+    printf("Pilih opsi (1-3): ");
+    scanf("%d", &k);
+    if (k == 1) k = 3;
+    else if (k == 2) k = 5;
+    else if (k == 3) k = 10;
+    else {
+        printf("Opsi tidak valid.\n");
+        k = 3;
+    }
+
+    // Buat heap sementara untuk menampilkan tugas berdasarkan prioritas
+    MinHeap temp_heap;
+    initMinHeap(&temp_heap, system->priority_heap.size);
+    for (int i = 0; i < system->priority_heap.size; i++) {
+        heapInsert(&temp_heap, system->priority_heap.tasks[i]);
+    }
