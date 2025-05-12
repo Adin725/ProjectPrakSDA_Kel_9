@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "header.h"
+#include "sipe_tuk.h"
 
 // Inisialisasi stack kosong
 void initStack(StackNode** stack) {
