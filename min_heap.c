@@ -53,3 +53,9 @@ void rebuildMinHeap(MinHeap* heap, HashTable* ht) {
         }
     }
 }
+void displayByPriority(SiPeTuK* system) {
+    // Cek apakah ada tugas yang belum selesai
+    if (system->incomplete_tasks.size == 0) {
+        printf("\nTidak ada tugas yang belum selesai.\n");
+        return;
+    }
