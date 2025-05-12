@@ -2,21 +2,31 @@
 #include <stdlib.h>
 #include "sipe_tuk.h"
 
-// Fungsi untuk menghapus tugas dari sistem
-void deleteTask(SiPeTuK* system) {
-    int task_id;
-    printf("Masukkan ID Tugas yang akan dihapus: ");
-    scanf("%d", &task_id);
+void removeTaskFromHashTable(HashTable* table, int task_id, StackNode** undo_stack) {
+    int index = hashFunction(task_id);
+    TaskNode* current = table->buckets[index];
+    TaskNode* prev = NULL;
 
-    Task* task = findTaskInHashTable(&system->incomplete_tasks, task_id);
-    if (task != NULL) {
-        removeTaskFromMinHeap(&system->priority_heap, task_id);
-        removeTaskFromHashTable(&system->incomplete_tasks, task_id, &system->undo_stack);
-        printf("Tugas dengan ID %d berhasil dihapus.\n", task_id);
-    } else {
-        printf("Tugas dengan ID %d tidak ditemukan.\n", task_id);
+    while (current != NULL) {
+        if (current->task.task_id == task_id) {
+            // Simpan ke stack sebelum dihapus
+            pushStack(undo_stack, current->task);
+
+            // Hapus node dari linked list
+            if (prev == NULL) {
+                table->buckets[index] = current->next;
+            } else {
+                prev->next = current->next;
+            }
+
+            free(current);
+            return;
+        }
+        prev = current;
+        current = current->next;
     }
 }
+
 
 // Inisialisasi stack kosong
 void initStack(StackNode** stack) {
