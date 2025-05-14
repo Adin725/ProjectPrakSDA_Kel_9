@@ -83,7 +83,8 @@ void displayTasks(HashTable* ht, const char* type)
 }
 
 // Menampilkan tugas-tugas yang diurutkan berdasarkan nama mata kuliah
-void displayBySubject(SiPeTuK* system) {
+void displayBySubject(SiPeTuK* system) 
+{
     char course[50];
     printf("Masukkan nama mata kuliah: ");
     scanf(" %[^\n]", course);
