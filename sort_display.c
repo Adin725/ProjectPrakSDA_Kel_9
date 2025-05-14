@@ -30,7 +30,8 @@ void merge(Task* arr, int left, int mid, int right)
 }
 
 // Merge sort berdasarkan nama mata kuliah
-void mergeSort(Task* arr, int left, int right) {
+void mergeSort(Task* arr, int left, int right) 
+{
     if (left < right) {
         int mid = left + (right - left) / 2;
         mergeSort(arr, left, mid);
