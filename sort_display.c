@@ -53,7 +53,8 @@ int binarySearch(Task* arr, int left, int right, char* course)
 }
 
 // Menampilkan semua tugas berdasarkan status: "done" atau "undone"
-void displayTasks(HashTable* ht, const char* type) {
+void displayTasks(HashTable* ht, const char* type) 
+{
     if (ht->size == 0) {
         printf("\nTidak ada tugas %s.\n", type);
         return;
