@@ -4,7 +4,8 @@
 #include "sipe_tuk.h" 
 
 // Fungsi merge untuk merge sort
-void merge(Task* arr, int left, int mid, int right) {
+void merge(Task* arr, int left, int mid, int right) 
+{
     int n1 = mid - left + 1;
     int n2 = right - mid;
     Task* L = malloc(n1 * sizeof(Task));
