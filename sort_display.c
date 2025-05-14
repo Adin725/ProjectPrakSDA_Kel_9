@@ -40,7 +40,8 @@ void mergeSort(Task* arr, int left, int right)
     }
 }
 // Binary search berdasarkan nama mata kuliah
-int binarySearch(Task* arr, int left, int right, char* course) {
+int binarySearch(Task* arr, int left, int right, char* course) 
+{
     while (left <= right) {
         int mid = left + (right - left) / 2;
         int cmp = strcmp(arr[mid].course, course);
