@@ -52,7 +52,7 @@ int binarySearch(Task* arr, int left, int right, char* course)
     return -1;
 }
 
-// Menampilkan semua tugas berdasarkan status: "done" atau "undone"
+// Menampilkan semua tugas berdasarkan status: "selesai" atau "belum"
 void displayTasks(HashTable* ht, const char* type) 
 {
     if (ht->size == 0) {
